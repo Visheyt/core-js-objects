@@ -57,8 +57,12 @@ function mergeObjects(objects) {
  *
  */
 function removeProperties(obj, keys) {
-  const newObj = obj + keys;
-
+  const newObj = {};
+  Object.assign(newObj, obj);
+  keys.map((e) => {
+    delete newObj[e];
+    return e;
+  });
   return newObj;
 }
 
