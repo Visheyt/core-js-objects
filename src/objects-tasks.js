@@ -36,9 +36,17 @@ function shallowCopy(obj) {
  */
 function mergeObjects(objects) {
   const newObj = {};
-  objects.map((e) => {
-    Object.assign(newObj, e);
-    return e;
+  objects.map((obj) => {
+    const arrayObj = Object.entries(obj);
+    arrayObj.map(([key, value]) => {
+      if (newObj[key] === undefined) {
+        newObj[key] = value;
+      } else {
+        newObj[key] += value;
+      }
+      return key;
+    });
+    return obj;
   });
   return newObj;
 }
@@ -291,9 +299,7 @@ function group(/* array, keySelector, valueSelector */) {
  * Each complex selector can consists of type, id, class, attribute, pseudo-class
  * and pseudo-element selectors:
  *
- *    element#id.class[attr]:pseudoClass::pseudoElement
- *              \----/\----/\----------/
- *              Can be several occurrences
+
  *
  * All types of selectors can be combined using the combination ' ','+','~','>' .
  *
@@ -338,14 +344,17 @@ function group(/* array, keySelector, valueSelector */) {
  *
  *  For more examples see unit tests.
  */
-
+// *    element#id.class[attr]:pseudoClass::pseudoElement
+// *              \----/\----/\----------/
+// *              Can be several occurrences
 const cssSelectorBuilder = {
-  element(/* value */) {
-    throw new Error('Not implemented');
+  element(value) {
+    this.value = value;
+    return this.value;
   },
 
-  id(/* value */) {
-    throw new Error('Not implemented');
+  id(value) {
+    this.id = value;
   },
 
   class(/* value */) {
