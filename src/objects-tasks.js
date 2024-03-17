@@ -35,17 +35,20 @@ function shallowCopy(obj) {
  *    mergeObjects([]) => {}
  */
 function mergeObjects(objects) {
-  return objects.reduce((acc, obj) => {
-    Object.keys(obj).map((key) => {
-      if (acc[key]) {
-        acc[key] += obj[key];
+  const newObj = {};
+  objects.map((obj) => {
+    const arrayObj = Object.entries(obj);
+    arrayObj.map(([key, value]) => {
+      if (newObj[key]) {
+        newObj[key] += value;
       } else {
-        acc[key] = obj[key];
+        newObj[key] = value;
       }
       return key;
     });
-    return acc;
-  }, {});
+    return obj;
+  });
+  return newObj;
 }
 
 /**
