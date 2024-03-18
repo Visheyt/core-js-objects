@@ -163,16 +163,18 @@ function makeWord(lettersObject) {
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
 function sellTickets(queue) {
-  let result = 0;
+  let canSell = true;
+  let sum = 0;
   queue.map((e) => {
     if (e === 25) {
-      result += 25;
+      sum += e;
     } else {
-      result -= e - 25;
+      sum -= e - 25;
     }
+    if (sum < 0) canSell = false;
     return e;
   });
-  return result > 0;
+  return canSell;
 }
 
 /**
